@@ -1,11 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:setting/http.dart';
 import 'package:setting/setting.dart';
+import 'package:setting/ui/all_users.dart';
 import 'package:setting/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'assets.dart';
 
 void main() {
-  runApp(const MyApp());
+  var prefs = SharedPreferences.getInstance();
+  prefs.then((value) {
+    preferences=value;
+    account=value.getString(ACCOUNT);
+    runApp(const MyApp());
+  });
+
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +29,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple,brightness: Brightness.dark),
+        useMaterial3: true,
+      ),
+      home:account==null? const MyHomePage():Setting(),
     );
   }
 }
@@ -32,6 +46,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   bool isSuccess=false;
   @override
   Widget build(BuildContext context) {
@@ -58,16 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(onPressed: ()async{
+                child:ElevatedButton(onPressed: ()async{
                   await showLoadingDialog(context: context, func: ()async{
                     var a=await httpGetJson("/check/account/${controller.text}");
                     if(a["is_exist"]==true){
                       isSuccess=true;
-
-
-
                     }else{
-                      throw new Exception("");
+                      throw Exception("login failed");
                     }
                   },onError: (){
                     showInfoDialog(
@@ -77,12 +89,23 @@ class _MyHomePageState extends State<MyHomePage> {
                         "can not login");
                   });
                   if(isSuccess){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (builder){
-                      return Setting(account: controller.text,);
+                    account=controller.text;
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder){
+                      return Setting();
                     }));
                   }
                 }, child: const Text("Login"),),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:ElevatedButton(onPressed: (){
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const AllUsers();
+                      }));
+                }, child: const Text("Get All Users (BETA)"),),
+              ),
+
 
 
             ],

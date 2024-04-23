@@ -30,6 +30,7 @@ environment:
 dependencies:
   http:
   async:
+  shared_preferences:
   flutter:
     sdk: flutter
 

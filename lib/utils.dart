@@ -24,7 +24,7 @@ Future showInfoDialog(
       });
 }
 class ContextWrapper {
-  late BuildContext context;
+  BuildContext? context;
 }
 Future showLoadingDialog(
     {required BuildContext context,
@@ -35,11 +35,16 @@ Future showLoadingDialog(
   ContextWrapper contextWrapper = ContextWrapper();
   var future = func().then((v) {
     Future.delayed(const Duration(milliseconds: 100)).then((value) {
-      Navigator.pop(contextWrapper.context);
+      if(contextWrapper.context!=null){
+        Navigator.pop(contextWrapper.context!);
+      }
     });
   }).onError((error, stackTrace){
     //await Future.delayed(const Duration(microseconds: 5000));
-    Navigator.pop(contextWrapper.context);
+    if(contextWrapper.context!=null){
+      Navigator.pop(contextWrapper.context!);
+    }
+
     if (onError != null) {
       onError();
     }
