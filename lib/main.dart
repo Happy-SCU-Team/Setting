@@ -11,7 +11,7 @@ void main() {
   var prefs = SharedPreferences.getInstance();
   prefs.then((value) {
     preferences=value;
-    account=value.getString(ACCOUNT);
+    account=value.getString(ACCOUNT_Str);
     runApp(const MyApp());
   });
 

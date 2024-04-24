@@ -8,11 +8,11 @@ String? get account{
 }
 set account(String? account){
   if(account==null){
-    preferences.remove(ACCOUNT);
+    preferences.remove(ACCOUNT_Str);
   }else{
-    preferences.setString(ACCOUNT, account);
+    preferences.setString(ACCOUNT_Str, account);
   }
 
   _account=account;
 }
-String ACCOUNT="account";
+String ACCOUNT_Str="account";

@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:setting/main.dart';
+import 'package:setting/ui/all_users.dart';
 import 'package:setting/ui/modify_interval.dart';
 import 'package:setting/ui/modify_plan.dart';
 import 'package:setting/ui/modify_username.dart';
@@ -33,6 +34,7 @@ class _SettingState extends State<Setting> {
             buttonWithPadding(onPressed: (){push(const ModifyPlan());}, text: ("更改计划信息")),
             buttonWithPadding(onPressed: (){push(const ModifyInterval());}, text: "更新提醒间隔时间"),
             buttonWithPadding(onPressed: (){push(const ModifyUsername());}, text: "更新用户名"),
+            buttonWithPadding(onPressed: (){push(const AllUsers());}, text: "All Users (BETA)"),
             buttonWithPadding(onPressed: (){
               account=null;
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder){

@@ -80,3 +80,35 @@ Future showLoadingDialog(
         );
       });
 }
+
+var day2Str=<String>["周一","周二","周三","周四","周五","周六","周日"];
+String time2StringConverter(int time){
+  int b=1~/2;
+  var day=(time~/(24*60));
+  time %=24*60;
+  int hour=time~/60;
+  var minute=time%60;
+
+  return "${day2Str[day]} ${hour.toString()}:${minute.toString()}";
+
+}
+int string2TimeConverter(int week,int hour,int minute){
+  bool flag=0<=week&&week<=7 && 0<=hour&&hour<60 &&0<=minute&&minute<60;
+  if(!flag){
+    throw Exception("invalid time");
+  }
+  return (week*24+hour)*60+minute;
+}
+
+({int day,int hour,int minute}) parseIntTime(int time){
+
+  var day=(time~/(24*60)) ;
+  time %=24*60;
+  var hour=time~/60 ;
+  var minute=time%60;
+  return (
+  day: day,
+  hour: hour,
+  minute: minute,
+  );
+}
